@@ -5,8 +5,13 @@
 
 using namespace std::chrono;
 
-int main() {
-    string filename = "task2.txt";
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        cerr << "Введите имя файла\n";
+        return 1;
+    }
+
+    string filename = argv[1];
 
     Graph g(filename);
 

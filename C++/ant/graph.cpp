@@ -72,6 +72,9 @@ void Graph::removeEdge(Node* begin, Node* end) {
 //	end->removeNeighbour(begin);
 }
 
+size_t Graph::size() const{
+	return nodes.size();
+}
 Graph::iterator Graph::begin() const {
 	return nodes.cbegin();
 }
