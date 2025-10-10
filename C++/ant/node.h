@@ -8,7 +8,7 @@ using namespace std;
 class Node {
 private:
     string name;
-    unordered_map<Node*, pair<int, double>> neighbours; // вес и под-вес
+    unordered_map<Node*, pair<int, double>> neighbours;
 
     void addNeighbour(Node* neighbour, int weight);
     void removeNeighbour(Node* neighbour);
