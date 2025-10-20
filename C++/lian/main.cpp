@@ -1,8 +1,13 @@
 #include "lian.h"
 
-int main() {
-    //binary_map_masked.txt
-    Map algMap("binary_map_masked1.txt");
+int main(int argc, char* argv[]) { 
+    if (argc < 2) {
+        cerr << "Введите имя файла\n";
+        return 1;
+    }
+
+    string filename = argv[1];
+    Map algMap(filename);
 
     if (algMap.width == 0 || algMap.height == 0) {
         cout << "Ошибка загрузки карты" << '\n';
