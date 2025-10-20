@@ -6,13 +6,13 @@ AntColony::AntColony(Graph* g, int ants, int iterations, double Q_)
 	: graph(g), numAnts(ants), maxIterations(iterations), Q(Q_), rng(random_device{}()) {}
 
 double AntColony::computePathLength(const vector<Node*>& path) const {
-    	double length = 0.0;
-    	for (size_t i = 0; i + 1 < path.size(); ++i) {
-        	Node* a = path[i];
-        	Node* b = path[i + 1];
-        	length += a->getWeight(b);
-    	}
-    	return length;
+    double length = 0.0;
+    for (size_t i = 0; i + 1 < path.size(); ++i) {
+       	Node* a = path[i];
+       	Node* b = path[i + 1];
+       	length += a->getWeight(b);
+    }
+    return length;
 }
 
 Node* AntColony::chooseNextNode(Node* current, const unordered_map<Node*, bool>& visited, const Ant& ant) {
@@ -20,41 +20,41 @@ Node* AntColony::chooseNextNode(Node* current, const unordered_map<Node*, bool>&
 	vector<double> probabilities;
 	for (auto it = current->nb_begin(); it != current->nb_end(); ++it) {
 		Node* neigh = it->first;
-        	if (visited.at(neigh))
-			continue;
+        if (visited.at(neigh))
+	    	continue;
 
-        	double tau = current->getSubWeight(neigh);
-        	double eta = 1.0 / it->second.first;
-        	choices.push_back(neigh);
-        	probabilities.push_back(pow(tau, ant.alpha) * pow(eta, ant.beta));
-    	}
+        double tau = current->getSubWeight(neigh);
+        double eta = 1.0 / it->second.first;
+        choices.push_back(neigh);
+        probabilities.push_back(pow(tau, ant.alpha) * pow(eta, ant.beta));
+    }
 
-    	if (choices.empty())
-		return nullptr;
+    if (choices.empty())
+	    return nullptr;
 
-    	double sum = accumulate(probabilities.begin(), probabilities.end(), 0.0);
-    	uniform_real_distribution<double> dist(0.0, sum);
-    	double pick = dist(rng);
-    	double cumulative = 0.0;
+    double sum = accumulate(probabilities.begin(), probabilities.end(), 0.0);
+    uniform_real_distribution<double> dist(0.0, sum);
+    double pick = dist(rng);
+    double cumulative = 0.0;
 
-    	for (size_t i = 0; i < choices.size(); ++i) {
-        	cumulative += probabilities[i];
+    for (size_t i = 0; i < choices.size(); ++i) {
+        cumulative += probabilities[i];
         if (cumulative >= pick)
-        	return choices[i];
-    	}
+            return choices[i];
+    }
 
-    	return choices.back();
+    return choices.back();
 }
 
 void AntColony::run() {
-    	vector<Node*> nodes(graph->begin(), graph->end());
-    	double bestLength = INFINITY;
-    	vector<Node*> bestPath;
+    vector<Node*> nodes(graph->begin(), graph->end());
+    double bestLength = INFINITY;
+    vector<Node*> bestPath;
 
 	for (int iter = 0; iter < maxIterations; ++iter) {
-        	vector<Ant> ants;
-        	for (int i = 0; i < numAnts; ++i)
-            		ants.emplace_back(1.0, 2.0, 0.1);
+        vector<Ant> ants;
+        for (int i = 0; i < numAnts; ++i)
+            ants.emplace_back(1.0, 2.0, 0.1);
 
 		for (Ant& ant : ants) {
 			vector<Node*> path;
