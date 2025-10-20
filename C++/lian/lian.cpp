@@ -53,7 +53,6 @@ vector<Cell*> LIAN::getNeighbours(Cell* current) {
 
                     if (angleDeg > maxAngle) {
                         continue;
-                        //cand->angle = angleDeg;
                     }
                 }
             }
