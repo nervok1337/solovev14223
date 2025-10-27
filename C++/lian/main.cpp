@@ -3,7 +3,7 @@
 int main(int argc, char* argv[]) { 
     if (argc < 2) {
         cerr << "Введите имя файла\n";
-        return 1;
+        return -1;
     }
 
     string filename = argv[1];
@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
 
     if (algMap.width == 0 || algMap.height == 0) {
         cout << "Ошибка загрузки карты" << '\n';
-        return -1;
+        return -2;
     }
 
     //Cell* start = algMap.getCell(165,305);
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
     
     if (!start || !end || start->obstacle || end->obstacle) {
         cout << "Старт или цель недоступны!" << '\n';
-        return -2;
+        return -3;
     }
     LIAN lian(algMap,start,end, 50.0f, 20.0f);
     //LIAN lian(algMap, start, end, 50.0f, 45.0f);
@@ -34,14 +34,12 @@ int main(int argc, char* argv[]) {
 
     if (!path.empty()) {
         cout << "Путь найден! Длина: " << path.size() << "\n";
-        for (Cell* c : path) {
+        for (Cell* c : path)
             cout << "(" << c->y << "," << c->x << "), ";
-        }
         cout << "\n";
     }
-    else {
+    else
         cout << "Путь не найден" << '\n';
-    }
 
     return 0;
 }
