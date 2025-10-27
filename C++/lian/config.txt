@@ -1,0 +1,8 @@
+binary_map_masked3.txt
+6 6
+14 176
+20.0 30.0
+
+startX startY
+endX endY
+step angle

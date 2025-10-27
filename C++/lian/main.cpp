@@ -1,34 +1,34 @@
 #include "lian.h"
+#include "settings.h"
 
-int main(int argc, char* argv[]) { 
-    if (argc < 2) {
-        cerr << "Введите имя файла\n";
-        return -1;
-    }
+int main() {
+    string configname;
 
-    string filename = argv[1];
-    Map algMap(filename);
+    cout << "Введите имя конфиг файла: ";
+    cin >> configname;
+
+    Config config(configname);
+    Map algMap(config.filename);
 
     if (algMap.width == 0 || algMap.height == 0) {
         cout << "Ошибка загрузки карты" << '\n';
         return -2;
     }
-
-    //Cell* start = algMap.getCell(165,305);
-    //Cell* end = algMap.getCell(1287,689);
-    Cell* start = algMap.getCell(165,305);
-    Cell* end = algMap.getCell(1287,689);
+    
+    Cell* start = algMap.getCell(config.startX,config.startY);
+    Cell* end = algMap.getCell(config.endX,config.endY);
 
 
-    cout << "Map size: " << algMap.width << "x" << algMap.height << "\n";    
-    cout << "Start: " << start->x << "," << start->y << "  obstacle=" << start->obstacle << "\n";
-    cout << "End:   " << end->x   << "," << end->y   << "  obstacle=" << end->obstacle << "\n";
+    cout << "Размер карты: " << algMap.width << "x" << algMap.height << "\n";    
+    cout << "Начало: " << start->x << "," << start->y << "  доступность=" << start->obstacle << "\n";
+    cout << "Конец:   " << end->x   << "," << end->y   << "  доступность=" << end->obstacle << "\n";
     
     if (!start || !end || start->obstacle || end->obstacle) {
         cout << "Старт или цель недоступны!" << '\n';
         return -3;
     }
-    LIAN lian(algMap,start,end, 50.0f, 20.0f);
+
+    LIAN lian(algMap,start,end, config.step, config.angle);
     //LIAN lian(algMap, start, end, 50.0f, 45.0f);
     vector<Cell*> path = lian.findPath();
 
