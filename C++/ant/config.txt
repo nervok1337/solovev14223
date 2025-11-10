@@ -1,0 +1,15 @@
+hgwc30n.txt
+100
+1000
+20
+1.0
+1.0 3.0 0.15
+250
+
+# filename
+# count ants
+# maxIterations
+# iter to stop
+# epsilon
+# alpha,beta,rho - ant params
+# Q

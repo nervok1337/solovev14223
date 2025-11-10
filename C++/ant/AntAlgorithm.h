@@ -25,13 +25,17 @@ private:
     int numAnts;
 	int maxIterations;
     double Q;
+    double epsilon;
+    int iterToStop;
     mt19937 rng;
-
+    
     double computePathLength(const vector<Node*>& path) const;
     Node* chooseNextNode(Node* current, const unordered_map<Node*, bool>& visited, const Ant& ant);
+    void updatePheromone(const vector<Node*>& path, double length, double rho);
+    double computePheromoneOnPath(const vector<Node*>& path) const;
 
 public:
-    AntColony(Graph* g, int ants, int iterations, double Q_ = 20.0);
-    void run();
+    AntColony(Graph* g, int ants, int iterations, int its, double q);
+    void run(double alpha, double beta, double rho);
 };
 #endif // ANT_ALGORITHM_H
