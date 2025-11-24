@@ -1,4 +1,5 @@
 hgwc30n.txt
+0 19
 100
 1000
 20
@@ -7,6 +8,7 @@ hgwc30n.txt
 250
 
 # filename
+# start end
 # count ants
 # maxIterations
 # iter to stop
