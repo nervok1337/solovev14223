@@ -10,5 +10,6 @@ Config::Config(string configname) {
     file >> size;
     file >> winLength;
     file >> depth;
+    file >> time;
 }
 

@@ -13,6 +13,7 @@ public:
     int size;
     int winLength;
     int depth;
+    int time;
 
     Config(string configname);
 };

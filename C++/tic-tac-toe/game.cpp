@@ -14,18 +14,20 @@ bool Game::isCellEmpty(const int row, const int col) const {
     return field[row][col] == Player::None;
 }
 
-bool Game::makeHumanMove(const int row, const int col) {
-    if (!isCellEmpty(row, col)) return false;
-    field[row][col] = Player::Human;
-    return true;
+void Game::makeMove(int r, int c, Player p) {
+    field[r][c] = p;
+
+    moveStack.push_back({r, c});
+    playerStack.push_back(currentPlayer);
+    currentPlayer = (p == Player::AI ? Player::Human : Player::AI);
 }
-bool Game::makeAIMove(const int row, const int col) {
-    if (!isCellEmpty(row, col)) return false;
-    field[row][col] = Player::AI;
-    return true;
-}
+
 void Game::undoMove(const int row, const int col) {
     field[row][col] = Player::None;
+
+    moveStack.pop_back();
+    currentPlayer = playerStack.back();
+    playerStack.pop_back();
 }
 
 Player Game::getCurPlayer() const{
@@ -81,9 +83,16 @@ GameState Game::evaluateState() const {
     return GameState::Draw;
 }
 
+int Game::getSize() const {
+    return size;
+}
+int Game::getWinLength() const {
+    return winLength;
+}
 
-void Game::run(int depth) {
-    AI ai(depth);
+
+void Game::run(int depth, int time) {
+    AI ai(depth, time);
 
     while (true) {
         cout << "  ";
@@ -123,7 +132,7 @@ void Game::run(int depth) {
                 continue;
             }
 
-            makeHumanMove(r,c);
+            makeMove(r,c, Player::Human);
             currentPlayer = Player::AI;
         } else {
             cout << "AI думает...\n";
@@ -131,8 +140,8 @@ void Game::run(int depth) {
             auto mv = ai.getBestMove(*this);
             auto t2 = chrono::high_resolution_clock::now();
             auto ms = chrono::duration_cast<chrono::milliseconds>(t2-t1).count();
-            cout << "Время расчётов: " << ms << " ms\n";
-            makeAIMove(mv.first, mv.second);
+            cout << "Время расчётов: " << ms/1000 << " sec\n";
+            makeMove(mv.first, mv.second, Player::AI);
             cout << "AI пошёл: " << mv.first << " " << mv.second << "\n";
             currentPlayer = Player::Human;
         }

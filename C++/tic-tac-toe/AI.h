@@ -3,23 +3,36 @@
 
 #include "game.h"
 #include <limits>
-#include <utility>
 #include <algorithm>
+#include <chrono>
+#include <vector>
+#include <utility>
+#include <unordered_map>
+#include <string>
+#include <cmath>
+#include <cassert>
 
-using std::numeric_limits;
-using std::max;
-using std::min;
 
 class AI {
 private:
-    int alpha;
-    int beta;
     int depth;
+    int timeLimitMs;
 
-    int minimax(Game& game, int depth, bool maximizingPlayer);
+    chrono::steady_clock::time_point startTime;
+    bool timeoutOccurred = false;
+
+    unordered_map<string,int> tt;
+
+    void orderMoves(Game& game, vector<pair<int,int>>& moves);
+    void generateCandidateMoves(Game& game, vector<std::pair<int,int>>& moves);
+    bool findImmediateWinOrBlock(Game& game, pair<int,int>& outMove);
+
+    int minimax(Game& game, int d, int alpha, int beta, bool maximizing);
     int evaluateFinalState(GameState st);
+    int heuristicEval(Game& game);
+
 public:
-    AI(int d);
+    AI(int d, int t);
     pair<int,int> getBestMove(Game& game);
 };
 

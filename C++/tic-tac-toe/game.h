@@ -26,15 +26,15 @@ private:
     int size;
     int winLength;
     Player currentPlayer;
+    vector<pair<int,int>> moveStack;
+    vector<Player> playerStack;
 
     GameState evaluateState() const;
     bool checkLine(int r, int c, int dr, int dc, Player p) const;
 public:
     Game(int sizeField = 3, int winLenght = 3);
     void reset();
-
-    bool makeHumanMove(const int row, const int col);
-    bool makeAIMove(const int row, const int col);
+    void makeMove(int r, int c, Player p);
     void undoMove(const int row, const int col);
     Player getCurPlayer() const;
     
@@ -43,8 +43,10 @@ public:
     vector<pair<int,int>> getAvailableMoves() const;
 
     const Player& at(const int row, const int col) const;
-    void run(int depthAI);
-    
+    void run(int depth, int time);
+
+    int getSize() const;
+    int getWinLength() const;
 };
 
 #endif //_GAME_H
