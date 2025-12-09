@@ -95,19 +95,7 @@ void Game::run(int depth, int time) {
     AI ai(depth, time);
 
     while (true) {
-        cout << "  ";
-        for (int c = 0; c < size; ++c) cout << c % 10 << " ";
-        cout << "\n";
-        for (int r = 0; r < size; ++r) {
-            cout << r % 10 << " ";
-            for (int c = 0; c < size; ++c) {
-                char sym = '.';
-                if (field[r][c] == Player::Human) sym = 'X';
-                else if (field[r][c] == Player::AI) sym = 'O';
-                cout << sym << " ";
-            }
-            cout << "\n";
-        }
+        printField();
 
         GameState st = getState();
         if (st == GameState::HumanWin) {
@@ -148,3 +136,20 @@ void Game::run(int depth, int time) {
     }
 }
 
+void Game::printField() {
+    cout << "  ";
+    for (int c = 0; c < size; ++c) cout << c % 10 << " ";
+    cout << "\n";
+
+    for (int r = 0; r < size; ++r) {
+        cout << r % 10 << " ";
+        for (int c = 0; c < size; ++c) {
+            string sym = "•";
+            if (field[r][c] == Player::Human) sym = 'X';
+            else if (field[r][c] == Player::AI) sym = 'O';
+            cout << sym << " ";
+        }
+        cout << "\n";
+    }
+
+}

@@ -25,14 +25,15 @@ private:
     vector<vector<Player>> field;
     int size;
     int winLength;
-    Player currentPlayer;
     vector<pair<int,int>> moveStack;
     vector<Player> playerStack;
 
     GameState evaluateState() const;
     bool checkLine(int r, int c, int dr, int dc, Player p) const;
+    void printField();
 public:
     Game(int sizeField = 3, int winLenght = 3);
+    Player currentPlayer;
     void reset();
     void makeMove(int r, int c, Player p);
     void undoMove(const int row, const int col);
